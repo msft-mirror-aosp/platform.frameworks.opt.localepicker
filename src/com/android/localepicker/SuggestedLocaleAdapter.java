@@ -16,8 +16,6 @@
 
 package com.android.localepicker;
 
-import android.annotation.NonNull;
-import android.annotation.Nullable;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.text.TextUtils;
@@ -29,7 +27,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.android.internal.annotations.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
 import com.android.localepicker.R;
 
 import java.util.ArrayList;

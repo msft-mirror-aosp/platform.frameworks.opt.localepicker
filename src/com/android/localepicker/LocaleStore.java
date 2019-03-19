@@ -16,13 +16,15 @@
 
 package com.android.localepicker;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.res.Resources;
+import android.icu.util.ULocale;
 import android.os.LocaleList;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
-import com.android.internal.annotations.VisibleForTesting;
-import com.android.internal.app.LocalePicker;
+import androidx.annotation.VisibleForTesting;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -191,7 +193,7 @@ public class LocaleStore {
     private static Set<String> getSimCountries(Context context) {
         Set<String> result = new HashSet<>();
 
-        TelephonyManager tm = TelephonyManager.from(context);
+        TelephonyManager tm = context.getSystemService(TelephonyManager.class);
 
         if (tm != null) {
             String iso = tm.getSimCountryIso().toUpperCase(Locale.US);
@@ -266,13 +268,14 @@ public class LocaleStore {
 
         final boolean isInDeveloperMode = Settings.Global.getInt(context.getContentResolver(),
                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
-        for (String localeId : LocalePicker.getSupportedLocales(context)) {
-            if (localeId.isEmpty()) {
-                throw new IllformedLocaleException("Bad locale entry in locale_config.xml");
+        ActivityManager activityManager = context.getSystemService(ActivityManager.class);
+        for (Locale locale : activityManager.getSupportedLocales()) {
+            if (locale == null) {
+                throw new NullPointerException("Bad locale entry in locale_config.xml");
             }
-            LocaleInfo li = new LocaleInfo(localeId);
+            LocaleInfo li = new LocaleInfo(locale);
 
-            if (LocaleList.isPseudoLocale(li.getLocale())) {
+            if (LocaleList.isPseudoLocale(ULocale.forLocale(li.getLocale()))) {
                 if (isInDeveloperMode) {
                     li.setTranslated(true);
                     li.mIsPseudo = true;
@@ -298,7 +301,7 @@ public class LocaleStore {
 
         // TODO: See if we can reuse what LocaleList.matchScore does
         final HashSet<String> localizedLocales = new HashSet<>();
-        for (String localeId : LocalePicker.getSystemAssetLocales()) {
+        for (String localeId : Resources.getSystem().getAssets().getLocales()) {
             LocaleInfo li = new LocaleInfo(localeId);
             final String country = li.getLocale().getCountry();
             // All this is to figure out if we should suggest a country

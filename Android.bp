@@ -15,6 +15,10 @@
 android_library {
     name: "localepicker",
     manifest: "AndroidManifest.xml",
+    sdk_version: "system_current",
+    static_libs: [
+        "androidx.annotation_annotation",
+    ],
     resource_dirs: [
         "res",
     ],
