@@ -26,10 +26,7 @@ import android.telephony.TelephonyManager;
 
 import com.android.internal.app.LocalePicker;
 import com.android.localepicker.LocaleStore.LocaleInfo;
-import com.android.localepicker.LocaleStoreTest.ShadowICU;
 import com.android.localepicker.LocaleStoreTest.ShadowLocalePicker;
-
-import libcore.icu.ICU;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +42,6 @@ import java.util.Locale;
 @Config(
         shadows = {
                 ShadowLocalePicker.class,
-                ShadowICU.class,
         })
 public class LocaleStoreTest {
 
@@ -74,16 +70,6 @@ public class LocaleStoreTest {
         @Implementation
         public static String[] getSystemAssetLocales() {
             return new String[] { "en-US", "zh-HK", "ja-JP", "zh-TW" };
-        }
-    }
-
-    @Implements(ICU.class)
-    public static class ShadowICU {
-
-        @Implementation
-        public static Locale addLikelySubtags(Locale locale) {
-            ULocale uLocale = ULocale.addLikelySubtags(ULocale.forLocale(locale));
-            return uLocale.toLocale();
         }
     }
 }
