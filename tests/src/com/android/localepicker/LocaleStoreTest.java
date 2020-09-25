@@ -17,6 +17,7 @@
 package com.android.localepicker;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import static org.robolectric.RuntimeEnvironment.application;
 import static org.robolectric.Shadows.shadowOf;
@@ -61,7 +62,7 @@ public class LocaleStoreTest {
     public void getLevel() {
         LocaleInfo localeInfo = LocaleStore.getLocaleInfo(Locale.forLanguageTag("zh-Hant-HK"));
         assertThat(localeInfo.getParent().toLanguageTag()).isEqualTo("zh-Hant");
-        assertThat(localeInfo.isTranslated()).named("is translated").isTrue();
+        assertWithMessage("is translated").that(localeInfo.isTranslated()).isTrue();
     }
 
     @Implements(LocalePicker.class)
