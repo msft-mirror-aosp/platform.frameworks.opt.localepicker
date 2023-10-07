@@ -38,7 +38,7 @@ android_app {
         "robolectric_android-all-stub",
         "Robolectric_all-target_upstream",
         "mockito-robolectric-prebuilt",
-        "truth-prebuilt",
+        "truth",
     ],
 }
 
