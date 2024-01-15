@@ -35,7 +35,6 @@ android_app {
 
     static_libs: [
         "localepicker",
-        "robolectric_android-all-stub",
         "Robolectric_all-target_upstream",
         "mockito-robolectric-prebuilt",
         "truth",
