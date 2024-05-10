@@ -18,6 +18,7 @@
 // Build test package for locale picker lib.                 //
 ///////////////////////////////////////////////////////////////
 package {
+    default_team: "trendy_team_applications_google_wide_",
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
@@ -35,10 +36,9 @@ android_app {
 
     static_libs: [
         "localepicker",
-        "robolectric_android-all-stub",
-        "Robolectric_all-target",
+        "Robolectric_all-target_upstream",
         "mockito-robolectric-prebuilt",
-        "truth-prebuilt",
+        "truth",
     ],
 }
 
@@ -49,4 +49,5 @@ android_robolectric_test {
     name: "LocalePickerRoboTests",
     srcs: ["src/**/*.java"],
     instrumentation_for: "LocalePickerTest",
+    upstream: true,
 }
