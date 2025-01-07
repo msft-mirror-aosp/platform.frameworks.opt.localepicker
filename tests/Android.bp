@@ -49,5 +49,4 @@ android_robolectric_test {
     name: "LocalePickerRoboTests",
     srcs: ["src/**/*.java"],
     instrumentation_for: "LocalePickerTest",
-    upstream: true,
 }
